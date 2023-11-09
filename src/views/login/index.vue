@@ -68,6 +68,7 @@ export default {
       }
     }
   },
+
   methods: {
     login() {
       this.$refs.form.validate((isOK) => {
