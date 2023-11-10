@@ -37,9 +37,8 @@ module.exports = {
       errors: true
     },
     proxy: {
-      // path:目标服务器
       '/api': {
-        target: 'https://heimahr.itheima.net/'
+        target: 'https://heimahr.itheima.net'
       }
     }
     // before: require('./mock/mock-server.js')

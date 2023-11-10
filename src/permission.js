@@ -36,6 +36,5 @@ router.beforeEach((to, from, next) => {
  * 后置守卫
  * **/
 router.afterEach(() => {
-  console.log('123')
   nprogress.done()
 })

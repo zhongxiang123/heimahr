@@ -86,6 +86,7 @@ export default {
   }
 }
 </script>
+
 <style lang="scss">
 .login-container {
   display: flex;
