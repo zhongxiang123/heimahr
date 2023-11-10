@@ -2,7 +2,7 @@ import { getToken, setToken, removeToken } from '@/utils/auth'
 import { login, getUserInfo } from '@/api/user'
 const state = {
   token: getToken(), // 从缓存中读取初始值
-  userInfo: {}
+  userInfo: {}// 存储用户基本资料状态
 }
 
 const mutations = {
