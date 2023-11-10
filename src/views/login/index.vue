@@ -5,6 +5,7 @@
       <h1>登录</h1>
       <el-card shadow="never" class="login-card">
         <!--登录表单-->
+        <!-- el-form > el-form-item > el-input -->
         <el-form ref="form" :model="loginForm" :rules="loginRules">
           <el-form-item prop="mobile">
             <el-input v-model="loginForm.mobile" placeholder="请输入手机号" />
@@ -16,11 +17,17 @@
               placeholder="请输入密码"
             />
           </el-form-item>
-          <el-form-item prop="isArgee">
-            <el-checkbox v-model="loginForm.isArgee"> 用户平台使用协议 </el-checkbox>
+          <el-form-item prop="isAgree">
+            <el-checkbox v-model="loginForm.isAgree">
+              用户平台使用协议
+            </el-checkbox>
           </el-form-item>
           <el-form-item>
-            <el-button style="width: 350px" type="primary" @click="login">登录</el-button>
+            <el-button
+              style="width: 350px"
+              type="primary"
+              @click="login"
+            >登录</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -33,9 +40,9 @@ export default {
   data() {
     return {
       loginForm: {
-        mobile: '',
-        password: '',
-        isArgee: false
+        mobile: process.env.NODE_ENV === 'development' ? '13800000002' : '',
+        password: process.env.NODE_ENV === 'development' ? '123456' : '',
+        isAgree: process.env.NODE_ENV === 'development'
       },
       loginRules: {
         mobile: [
@@ -46,38 +53,51 @@ export default {
           },
           {
             pattern: /^1[3-9]\d{9}$/,
-            message: '手机号格式不正确'
-          }
-        ],
-        password: [
-          { required: true, message: '请输入密码', trigger: 'blur' },
-          {
-            pattern: /^[A-Za-z0-9]{6,12}$/,
-            message: '密码格式不正确',
+            message: '手机号格式不正确',
             trigger: 'blur'
           }
         ],
-        isArgee: [{
-          validator: (rule, value, callback) => {
-            // rule 校验规则
-            // value校验的值
-            // callback函数-promise resolve reject
-            value ? callback() : callback(new Error('您必须勾选用户平台使用协议'))
+        password: [
+          {
+            required: true,
+            message: '请输入密码',
+            trigger: 'blur'
+          },
+          {
+            min: 6,
+            max: 16,
+            message: '密码长度应该为6-16位之间',
+            trigger: 'blur'
           }
-        }]
+        ],
+        // required只能检测 null undefined ""
+        isAgree: [
+          {
+            validator: (rule, value, callback) => {
+              // rule校验规则
+              // value 校验的值
+              // callback 函数 - promise resolve reject
+              // callback() callback(new Error(错误信息))
+              value
+                ? callback()
+                : callback(new Error('您必须勾选用户的使用协议'))
+            }
+          }
+        ]
       }
     }
   },
-
   methods: {
     login() {
-      this.$refs.form.validate((isOK) => {
+      this.$refs.form.validate(async(isOK) => {
         if (isOK) {
-          // alert('校验通过')
-          this.$store.dispatch('user/login', this.loginForm)
+          await this.$store.dispatch('user/login', this.loginForm)
+          // Vuex 中的action 返回的promise
+          // 跳转主页
+          this.$router.push('/')
         }
       })
-    },
+    }
   }
 }
 </script>
