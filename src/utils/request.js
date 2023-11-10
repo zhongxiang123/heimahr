@@ -6,38 +6,32 @@ const service = axios.create({
   timeout: 10000
 }) // 创建一个新的axios实例
 // 成功1 失败2
-service.interceptors.request.use(
-  (config) => {
-    // 注入token
-    //  this.$store.getters
-    // store.getters.token => 请求头里面
-    if (store.getters.token) {
-      config.headers.Authorization = `Bearer ${store.getters.token}`
-    }
-    return config
-  },
-  (error) => {
-    // 失败执行promise
-    return Promise.reject(error)
+service.interceptors.request.use((config) => {
+  // 注入token
+//  this.$store.getters
+  // store.getters.token => 请求头里面
+  if (store.getters.token) {
+    config.headers.Authorization = `Bearer ${store.getters.token}`
   }
-)
+  return config
+}, (error) => {
+  // 失败执行promise
+  return Promise.reject(error)
+})
 
 // 响应拦截器
-service.interceptors.response.use(
-  (response) => {
-    // axios默认包裹了data
-    const { data, message, success } = response.data
-    if (success) {
-      return data
-    } else {
-      Message({ type: 'error', message })
-      return Promise.reject(new Error(message))
-    }
-  },
-  (error) => {
-    // error.message
-    Message({ type: 'error', message: error.message })
-    return Promise.reject(error)
+service.interceptors.response.use((response) => {
+  // axios默认包裹了data
+  const { data, message, success } = response.data
+  if (success) {
+    return data
+  } else {
+    Message({ type: 'error', message })
+    return Promise.reject(new Error(message))
   }
-)
+}, (error) => {
+  // error.message
+  Message({ type: 'error', message: error.message })
+  return Promise.reject(error)
+})
 export default service

@@ -6,7 +6,7 @@ import store from '@/store'
 /**
  *前置守卫
  *
- */
+*/
 
 const whiteList = ['/login', '/404']
 router.beforeEach((to, from, next) => {

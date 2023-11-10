@@ -1,9 +1,6 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>
-    <svg-icon icon-class="dashboard" />
-    <svg-icon icon-class="example" />
-    <svg-icon icon-class="skill" />
   </div>
 </template>
 
