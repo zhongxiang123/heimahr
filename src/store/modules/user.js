@@ -35,6 +35,11 @@ const actions = {
     // console.log('调用action')
     const result = await getUserInfo()
     context.commit('setUserInfo', result)
+  },
+  // 登出
+  logout(context) {
+    context.commit('removeToken')
+    context.commit('setUserInfo', {})
   }
 }
 
