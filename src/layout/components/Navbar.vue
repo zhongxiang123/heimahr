@@ -24,7 +24,7 @@
           <a target="_blank" href="https://github.com/zhongxiang123/heimahr">
             <el-dropdown-item>项目地址</el-dropdown-item>
           </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
+          <a target="_blank" @click.prevent="updatePassword">
             <el-dropdown-item>修改密码</el-dropdown-item>
           </a>
           <el-dropdown-item @click.native="logout">
@@ -33,6 +33,9 @@
         </el-dropdown-menu>
       </el-dropdown>
     </div>
+    <!-- 放置dialog弹层 -->
+    <!-- sync修饰层 -->
+    <el-dialog width="500px" title="修改密码" :visible.sync="showDialog" />
   </div>
 </template>
 
@@ -46,6 +49,11 @@ export default {
     Breadcrumb,
     Hamburger
   },
+  data() {
+    return {
+      showDialog: false// 控制弹层的显示和隐藏
+    }
+  },
   computed: {
     ...mapGetters([
       // 映入头像和用户名称
@@ -55,6 +63,9 @@ export default {
     ])
   },
   methods: {
+    updatePassword() {
+      this.showDialog = true
+    },
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
