@@ -14,8 +14,9 @@ export function getUserInfo() {
   })
 }
 
-// 更新密码
-
+/**
+ * 更新密码
+ * **/
 export function updatePassword(data) {
   return request({
     url: '/sys/user/updatePass',
