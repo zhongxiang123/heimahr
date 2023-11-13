@@ -12,7 +12,7 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- 头像 -->
-          <img v-if="avatar" :src="avatar" class="user-avatar" />
+          <img v-if="avatar" :src="avatar" class="user-avatar">
           <span v-else class="username">{{ name?.charAt(0) }}</span>
           <!-- 用户名 -->
           <span class="name">{{ name }}</span>
@@ -38,15 +38,15 @@
     <!-- 放置dialog弹层 -->
     <!-- sync修饰层 -->
     <el-dialog width="500px" title="修改密码" :visible.sync="showDialog">
-      <el-form label-width="120px">
-        <el-form-item label="旧密码">
-          <el-input show-password size="small" />
+      <el-form ref="passForm" label-width="120px" :model="passForm" :rules="rules">
+        <el-form-item label="旧密码" prop="oldPassword">
+          <el-input v-model="passForm.oldPassword" show-password size="small" />
         </el-form-item>
-        <el-form-item label="新密码">
-          <el-input show-password size="small" />
+        <el-form-item label="新密码" prop="newPassword">
+          <el-input v-model="passForm.newPassword" show-password size="small" />
         </el-form-item>
-        <el-form-item label="重复密码">
-          <el-input show-password size="small" />
+        <el-form-item label="重复密码" prop="confirmPassword">
+          <el-input v-model="passForm.confirmPassword" show-password size="small" />
         </el-form-item>
         <el-form-item>
           <el-button size="mini" type="primary">确认修改</el-button>
@@ -59,42 +59,67 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import Breadcrumb from "@/components/Breadcrumb";
-import Hamburger from "@/components/Hamburger";
+import { mapGetters } from 'vuex'
+import Breadcrumb from '@/components/Breadcrumb'
+import Hamburger from '@/components/Hamburger'
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger,
+    Hamburger
   },
   data() {
     return {
       showDialog: false, // 控制弹层的显示和隐藏
-    };
+      passForm: {
+        oldPassword: '', // 旧密码
+        newPassword: '', // 新密码
+        confirmPassword: '' // 确认密码字段
+      },
+      rules: {
+        oldPassword: [{ required: true, message: '旧密码不能为空', trigger: 'blur' }], // 旧密码
+        newPassword: [{ required: true, message: '新密码不能为空', trigger: 'blur' }, {
+          trigger: 'blur',
+          min: 6,
+          max: 16,
+          message: '新密码的长度为6-16位之间'
+        }], // 新密码
+        confirmPassword: [{ required: true, message: '重复密码不能为空', trigger: 'blur' }, {
+          trigger: 'blur',
+          validator: (rule, value, callback) => {
+            // value
+            if (this.passForm.newPassword === value) {
+              callback()
+            } else {
+              callback(new Error('重复密码和新密码输入不一致'))
+            }
+          }
+        }] // 确认密码字段
+      }
+    }
   },
   computed: {
     ...mapGetters([
       // 映入头像和用户名称
-      "sidebar",
-      "avatar",
-      "name",
-    ]),
+      'sidebar',
+      'avatar',
+      'name'
+    ])
   },
   methods: {
     updatePassword() {
-      this.showDialog = true;
+      this.showDialog = true
     },
     toggleSideBar() {
-      this.$store.dispatch("app/toggleSideBar");
+      this.$store.dispatch('app/toggleSideBar')
     },
     async logout() {
       // 调用退出登录action
-      await this.$store.dispatch("user/logout");
-      this.$router.push("/login");
-    },
-  },
-};
+      await this.$store.dispatch('user/logout')
+      this.$router.push('/login')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
