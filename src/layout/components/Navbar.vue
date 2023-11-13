@@ -1,6 +1,10 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
+    <hamburger
+      :is-active="sidebar.opened"
+      class="hamburger-container"
+      @toggleClick="toggleSideBar"
+    />
 
     <breadcrumb class="breadcrumb-container" />
 
@@ -8,18 +12,16 @@
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <!-- 头像 -->
-          <img v-if="avatar" :src="avatar" class="user-avatar">
+          <img v-if="avatar" :src="avatar" class="user-avatar" />
           <span v-else class="username">{{ name?.charAt(0) }}</span>
           <!-- 用户名 -->
           <span class="name">{{ name }}</span>
           <!-- 图标 -->
-          <i class="el-icon-setting" style="font-size:25px" />
+          <i class="el-icon-setting" style="font-size: 25px" />
         </div>
         <el-dropdown-menu slot="dropdown" class="user-dropdown">
           <router-link to="/">
-            <el-dropdown-item>
-              首页
-            </el-dropdown-item>
+            <el-dropdown-item> 首页 </el-dropdown-item>
           </router-link>
           <a target="_blank" href="https://github.com/zhongxiang123/heimahr">
             <el-dropdown-item>项目地址</el-dropdown-item>
@@ -28,54 +30,71 @@
             <el-dropdown-item>修改密码</el-dropdown-item>
           </a>
           <el-dropdown-item @click.native="logout">
-            <span style="display:block;">登出</span>
+            <span style="display: block">登出</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
     </div>
     <!-- 放置dialog弹层 -->
     <!-- sync修饰层 -->
-    <el-dialog width="500px" title="修改密码" :visible.sync="showDialog" />
+    <el-dialog width="500px" title="修改密码" :visible.sync="showDialog">
+      <el-form label-width="120px">
+        <el-form-item label="旧密码">
+          <el-input show-password size="small" />
+        </el-form-item>
+        <el-form-item label="新密码">
+          <el-input show-password size="small" />
+        </el-form-item>
+        <el-form-item label="重复密码">
+          <el-input show-password size="small" />
+        </el-form-item>
+        <el-form-item>
+          <el-button size="mini" type="primary">确认修改</el-button>
+          <el-button size="mini">取消</el-button>
+        </el-form-item>
+      </el-form>
+      <el-dialog />
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
+import { mapGetters } from "vuex";
+import Breadcrumb from "@/components/Breadcrumb";
+import Hamburger from "@/components/Hamburger";
 
 export default {
   components: {
     Breadcrumb,
-    Hamburger
+    Hamburger,
   },
   data() {
     return {
-      showDialog: false// 控制弹层的显示和隐藏
-    }
+      showDialog: false, // 控制弹层的显示和隐藏
+    };
   },
   computed: {
     ...mapGetters([
       // 映入头像和用户名称
-      'sidebar',
-      'avatar',
-      'name'
-    ])
+      "sidebar",
+      "avatar",
+      "name",
+    ]),
   },
   methods: {
     updatePassword() {
-      this.showDialog = true
+      this.showDialog = true;
     },
     toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
+      this.$store.dispatch("app/toggleSideBar");
     },
     async logout() {
       // 调用退出登录action
-      await this.$store.dispatch('user/logout')
-      this.$router.push('/login')
-    }
-  }
-}
+      await this.$store.dispatch("user/logout");
+      this.$router.push("/login");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -84,18 +103,18 @@ export default {
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
 
   .hamburger-container {
     line-height: 46px;
     height: 100%;
     float: left;
     cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
+    transition: background 0.3s;
+    -webkit-tap-highlight-color: transparent;
 
     &:hover {
-      background: rgba(0, 0, 0, .025)
+      background: rgba(0, 0, 0, 0.025);
     }
   }
 
@@ -122,10 +141,10 @@ export default {
 
       &.hover-effect {
         cursor: pointer;
-        transition: background .3s;
+        transition: background 0.3s;
 
         &:hover {
-          background: rgba(0, 0, 0, .025)
+          background: rgba(0, 0, 0, 0.025);
         }
       }
     }
@@ -138,12 +157,12 @@ export default {
         position: relative;
         display: flex;
         align-items: center;
-        .name{
+        .name {
           // 用户名称距离右侧有一定距离
           margin-right: 10px;
           font-size: 16px;
         }
-        .username{
+        .username {
           width: 30px;
           height: 30px;
           line-height: 30px;
