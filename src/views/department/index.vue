@@ -45,10 +45,14 @@ export default {
       depts: [
         {
           name: '传智教育',
+          managerName: '管理员',
           children: [
-            { name: '总裁办' },
-            { name: '行政部' },
-            { name: '财务部' }
+            { name: '总裁办',
+              managerName: '张三' },
+            { name: '行政部',
+              managerName: '李四' },
+            { name: '财务部',
+              managerName: '王五' }
           ]
         }
       ],
@@ -65,5 +69,10 @@ export default {
 .app-container {
   padding: 30px 140px;
   font-size: 14px;
+}
+.tree-manager {
+  width: 50px;
+  display: inline-block;
+  margin: 20px;
 }
 </style>
