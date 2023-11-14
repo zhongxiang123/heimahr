@@ -38,28 +38,27 @@
 </template>
 
 <script>
+import { getDepartment } from '@/api/department'
+import { transListToTreeData } from '@/utils'
 export default {
   name: 'Department',
   data() {
     return {
-      depts: [
-        {
-          name: '传智教育',
-          managerName: '管理员',
-          children: [
-            { name: '总裁办',
-              managerName: '张三' },
-            { name: '行政部',
-              managerName: '李四' },
-            { name: '财务部',
-              managerName: '王五' }
-          ]
-        }
-      ],
+      depts: [],
       defaultProps: {
         children: 'children',
         label: 'name'
       }
+    }
+  },
+  created() {
+    this.getDepartment() // 调用获取数据的接口
+  },
+  methods: {
+    // 封装好方法 后期便于利用
+    async getDepartment() {
+      const result = await getDepartment()
+      this.depts = transListToTreeData(result, 0)
     }
   }
 }
@@ -73,6 +72,6 @@ export default {
 .tree-manager {
   width: 50px;
   display: inline-block;
-  margin: 20px;
+  margin: 40px;
 }
 </style>
