@@ -30,7 +30,7 @@
   </el-dialog>
 </template>
 <script>
-import { getDepartment, getManagerList, addDepartment } from '@/api/department'
+import { getDepartment, getManagerList, addDepartment, getDepartmentDetail } from '@/api/department'
 export default {
   props: {
     showDialog: {
@@ -120,6 +120,11 @@ export default {
           this.close()
         }
       })
+    },
+    async getDepartmentDetail() {
+      // alert(123)
+      // 获取数据、赋值
+      this.formData = await getDepartmentDetail(this.currentNodeId)
     }
   }
 }
