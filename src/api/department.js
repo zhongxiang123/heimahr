@@ -41,3 +41,14 @@ export function getDepartmentDetail(id) {
 
   })
 }
+/**
+ * 更新部门
+ * ***/
+
+export function updateDepartment(data) {
+  return request({
+    method: 'put',
+    url: `/company/department/${data.id}`,
+    data
+  })
+}
