@@ -83,8 +83,8 @@ export default {
   font-size: 14px;
 }
 .tree-manager {
-  width: 50px;
+  width: 100px;
   display: inline-block;
-  margin: 40px;
+  margin: 10px;
 }
 </style>
